@@ -10,7 +10,7 @@ const BrowserHeader = ({ query }: { query: string }) => {
     const { isDarkMode, toggleTheme, theme } = useTheme();
     const router = useRouter()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const hover = isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
     const tabs = [
         { id: 'about', title: 'About - Google Search' },
         { id: 'projects', title: 'Projects - Google Search' },
@@ -43,10 +43,7 @@ const BrowserHeader = ({ query }: { query: string }) => {
                         <div
                             key={tab.id}
                             onClick={() => onTabChange(tab.id)}
-                            className={`px-4 py-2 text-sm cursor-pointer relative rounded-t-lg transition-all duration-200 min-w-[200px] max-w-[240px] ${activeTab === tab.id
-                                ? `${theme.foreground} text-gray-900 shadow-sm`
-                                : `${theme.foreground} hover:bg-[#e8eaed]`
-                                }`}
+                            className={`px-4 py-2 text-sm cursor-pointer relative rounded-t-lg transition-all duration-200 min-w-[200px] max-w-[240px] ${hover}`}
                         >
                             <div className="flex items-center space-x-2">
                                 <div className="w-4 h-4 bg-blue-500 rounded-sm text-white flex items-center justify-center text-xs font-bold">
@@ -62,24 +59,24 @@ const BrowserHeader = ({ query }: { query: string }) => {
                 </div>
 
                 {/* New tab button */}
-                <button className="ml-2 p-1 hover:bg-gray-200 rounded">
-                    <div className={`w-4 h-4 ${theme.foreground}`}>+</div>
+                <button className={`ml-2 p-1 flex items-center justify-center rounded hover:cursor-pointer ${hover}`}>
+                    <div className={`w-4 ${theme.foreground}`}>+</div>
                 </button>
             </div>
 
             {/* Navigation bar */}
             <div className="flex items-center px-4 py-2 space-x-3">
                 <div className="flex items-center space-x-1">
-                    <button className="p-2 hover:bg-gray-200 rounded dark:hover:bg-gray-700">
+                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <ArrowLeft className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
-                    <button className="p-2 hover:bg-gray-200 rounded dark:hover:bg-gray-700">
+                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <ArrowRight className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
-                    <button className="p-2 hover:bg-gray-200 rounded dark:hover:bg-gray-700">
+                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <RotateCcw className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
-                    <button className="p-2 hover:bg-gray-200 rounded dark:hover:bg-gray-700">
+                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <Home className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
                 </div>
@@ -91,7 +88,7 @@ const BrowserHeader = ({ query }: { query: string }) => {
                         <span className={`text-sm ${theme.foreground} flex-1`}>
                             https://www.google.com/search?{query}
                         </span>
-                        <Star className="w-4 h-4 text-gray-400 ml-2 dark:text-gray-500" />
+                        <Star className={`w-4 h-4 ${theme.foreground}`} />
                     </div>
                 </div>
                 <div className="relative">
@@ -100,10 +97,10 @@ const BrowserHeader = ({ query }: { query: string }) => {
                         setIsMenuOpen(!isMenuOpen);
                     }} />
                     {isMenuOpen && (
-                        <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-lg py-1 z-10 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'}`}>
+                        <div className={`absolute right-0 mt-2 w-48 rounded-lg shadow-lg py-1 z-10 ${hover}`}>
                             <button
                                 onClick={() => { toggleTheme(); setIsMenuOpen(false) }}
-                                className={`w-full px-4 py-2 text-left hover:cursor-pointer ${theme.foreground} flex items-center space-x-2 ${theme.background} ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'}`}
+                                className={`w-full px-4 py-2 text-left hover:cursor-pointer ${theme.foreground} flex items-center space-x-2 ${theme.background} ${hover}`}
                             >
                                 {isDarkMode ? (
                                     <Sun className="w-4 h-4 text-yellow-400" />
