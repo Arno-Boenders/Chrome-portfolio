@@ -4,13 +4,16 @@ import { useNav } from '@context/NavContext';
 import { useTheme } from '@context/ThemeContext';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const BrowserHeader = ({ query }: { query: string }) => {
     const { activeTab, setActiveTab } = useNav();
     const { isDarkMode, toggleTheme, theme } = useTheme();
     const router = useRouter()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const hover = isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
+
     const tabs = [
         { id: 'about', title: 'About - Google Search' },
         { id: 'projects', title: 'Projects - Google Search' },
@@ -67,16 +70,16 @@ const BrowserHeader = ({ query }: { query: string }) => {
             {/* Navigation bar */}
             <div className="flex items-center px-4 py-2 space-x-3">
                 <div className="flex items-center space-x-1">
-                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
+                    <button  onClick={() => router.back()} className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <ArrowLeft className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
-                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
+                    <button onClick={() => router.forward()} className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <ArrowRight className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
-                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
+                    <button onClick={() => router.refresh()} className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <RotateCcw className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
-                    <button className={`p-2 rounded hover:cursor-pointer ${hover}`}>
+                    <button onClick={() => router.push('/')} className={`p-2 rounded hover:cursor-pointer ${hover}`}>
                         <Home className={`w-4 h-4 ${theme.foreground} `} />
                     </button>
                 </div>
