@@ -1,4 +1,6 @@
 import { useTheme } from "@/context/ThemeContext";
+import { GithubIcon, LinkedinIcon } from "lucide-react";
+import Link from "next/link";
 
 interface SearchResult {
     url: string;
@@ -14,7 +16,7 @@ interface SearchResult {
   const SearchResults = ({ results }: SearchResultsProps) => {
     const {theme} = useTheme()
     return (
-      <div className={`px-4 pb-8 flex gap-8 ${theme.background}`}>
+      <div className={`px-4 pr pb-8 flex justify-between gap-8 ${theme.background}`}>
         {/* Main search results - left side */}
         <div className="max-w-2xl flex-1">
           {results?.map((result, index) => (
@@ -24,14 +26,14 @@ interface SearchResult {
                   <div className="w-4 h-4 rounded-sm"></div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600">{result.domain}</div>
-                  <div className="text-xs text-gray-500">{result.url}</div>
+                  <div className={`text-sm ${theme.foreground}`}>{result.domain}</div>
+                  <div className={`text-xs ${theme.foreground}`}>{result.url}</div>
                 </div>
               </div>
-              <h3 className="text-xl text-blue-600 hover:underline cursor-pointer mb-1 font-normal">
+              <h3 className="text-xl text-blue-400 hover:underline cursor-pointer mb-1 font-normal">
                 {result.title}
               </h3>
-              <p className="text-sm text-gray-600 leading-6">
+              <p className={`text-sm ${theme.foreground} leading-6`}>
                 {result.description}
               </p>
             </div>
@@ -76,29 +78,25 @@ interface SearchResult {
                 <div className="flex text-yellow-400 text-sm mr-2">
                   ★★★★★
                 </div>
-                <span className="text-sm text-gray-600">Programming Student</span>
+                <span className={`text-sm ${theme.foreground}`}>Programming Student</span>
               </div>
-              <p className="text-sm text-gray-600">Fullstack Developer • Ghent, Belgium</p>
+              <p className={`text-sm ${theme.foreground}`}>Fullstack Developer • Ghent, Belgium</p>
             </div>
   
             {/* Action buttons */}
             <div className="flex gap-2 mb-4">
-              <button className="flex items-center gap-2 px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
-                <span>🌐</span>
-                Portfolio
-              </button>
-              <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded hover:bg-gray-50">
-                <span>📍</span>
+              <Link href="https://www.linkedin.com/in/arno-boenders-816117228/" className={`flex items-center gap-2 px-3 py-2 border border-gray-300 ${theme.foreground} text-sm rounded hover:bg-gray-50`}>
+                <LinkedinIcon strokeWidth={1.5}/>
                 LinkedIn
-              </button>
-              <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded hover:bg-gray-50">
-                <span>💾</span>
+              </Link>
+              <Link href="https://github.com/Arno-Boenders" className={`flex items-center gap-2 px-3 py-2 border border-gray-300 ${theme.foreground} text-sm rounded hover:bg-gray-50`}>
+                <GithubIcon strokeWidth={1.5}/>
                 GitHub
-              </button>
+              </Link>
             </div>
   
             {/* Contact info */}
-            <div className="text-sm text-gray-600 space-y-2">
+            <div className={`text-sm ${theme.foreground} space-y-2`}>
               <div>
                 <span className="font-medium">Education:</span> Artevelde University College
               </div>
@@ -114,8 +112,8 @@ interface SearchResult {
             </div>
   
             {/* Additional info */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <p className="text-xs text-gray-500">
+            <div className={`mt-4 pt-4 border-t border-gray-200 ${theme.foreground}`}>
+              <p className={`text-xs ${theme.foreground}`}>
                 Programming student passionate about fullstack development and maintaining an active lifestyle.
               </p>
             </div>
