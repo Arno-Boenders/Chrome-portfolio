@@ -102,9 +102,9 @@ const BrowserHeader = ({ query }: { query: string }) => {
                             className={`absolute right-0 top-4 w-48 rounded-lg shadow-lg py-1 ${hover} hover:cursor-pointer flex items-centers gap-4 p-4 py-3 ${theme.background}`}
                         >
                             {isDarkMode ? (
-                                <Sun className="w-4 h-4 text-yellow-400" />
+                                <Sun className="w-4 text-yellow-400" />
                             ) : (
-                                <Moon className={`w-4 h-4 ${theme.foreground}`} />
+                                <Moon className={`w-4 ${theme.foreground}`} />
                             )}
                             <span className={`${theme.foreground}`}>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
                         </button>
