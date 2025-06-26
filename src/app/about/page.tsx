@@ -22,15 +22,15 @@ export default function AboutPage() {
             query: 'Arno Boenders fullstack developer',
             results: [
                 {
-                    url: 'https://linkedin.com/in/arno-boenders',
+                    url: 'https://www.linkedin.com/in/arno-boenders-816117228/',
                     title: 'Arno Boenders - Fullstack Developer | LinkedIn',
-                    description: 'Hello, I am Arno Boenders, 22 years old and I study programming at Artevelde University College. My goal is to become a fullstack developer. I already have knowledge of various useful programming languages such as HTML, CSS, React, JavaScript and PHP. Besides my passion for programming, I am also sporty and I like to maintain an active lifestyle. I look forward to further developing my skills and fulfilling my dreams in the IT world.',
+                    description: 'Hello, I am Arno Boenders, 24 years old and I study programming at Arteveldehogeschool. My goal is to become a fullstack developer. I already have knowledge of various useful programming languages such as HTML, CSS, React, JavaScript and PHP. Besides my passion for programming, I am also sporty and I like to maintain an active lifestyle. I look forward to further developing my skills and fulfilling my dreams in the IT world.',
                     domain: 'linkedin.com'
                 },
                 {
-                    url: 'https://github.com/arno-boenders',
-                    title: 'Arno Boenders (@arno-boenders) · GitHub',
-                    description: '22-year-old programming student passionate about web development. Experienced in HTML, CSS, React, JavaScript, and PHP. Currently studying at Artevelde University College with aspirations to become a fullstack developer.',
+                    url: 'https://github.com/Arno-Boenders',
+                    title: 'Arno Boenders (@Arno-Boenders) · GitHub',
+                    description: '24-year-old programming student passionate about web development. Experienced in HTML, CSS, React, TypeScript, and PHP. Currently studying at Arteveldehogeschool with aspirations to become a fullstack developer.',
                     domain: 'github.com'
                 },
                 {
