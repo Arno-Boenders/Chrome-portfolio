@@ -11,6 +11,7 @@ const BrowserHeader = ({ query }: { query: string }) => {
     const { isDarkMode, toggleTheme, theme } = useTheme();
     const router = useRouter()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [star, setStar] = useState(false);
 
     const hover = isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
 
@@ -91,7 +92,7 @@ const BrowserHeader = ({ query }: { query: string }) => {
                         <span className={`text-sm ${theme.foreground} flex-1`}>
                             https://www.google.com/search?{query}
                         </span>
-                        <Star className={`w-4 h-4 ${theme.foreground}`} />
+                        <Star className={`w-4 h-4 ${theme.foreground} ${star ? 'fill-yellow-400 text-yellow-400' : 'fill-none'}`} onClick={() => setStar(!star)} />
                     </div>
                 </div>
                 <div className="relative">
