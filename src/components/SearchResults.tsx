@@ -102,16 +102,16 @@ const SearchResults = ({ results, rightContent }: SearchResultsProps) => {
             {/* Contact info */}
             <div className={`text-sm ${theme.foreground} space-y-2`}>
               <div>
-                <span className="font-medium">Education:</span> Artevelde University College
+                <span className="font-semibold">Education:</span> Graduate programming
               </div>
               <div>
-                <span className="font-medium">Skills:</span> React, JavaScript, PHP, HTML, CSS
+                <span className="font-semibold">Skills:</span> React, TypeScript, Next.js, Node.js, PHP, HTML, CSS
               </div>
               <div>
-                <span className="font-medium">Location:</span> Ghent, Belgium
+                <span className="font-semibold">Location:</span> Ghent, Belgium
               </div>
               <div>
-                <span className="font-medium">Age:</span> 22 years old
+                <span className="font-semibold">Age:</span> 24 years old
               </div>
             </div>
 
