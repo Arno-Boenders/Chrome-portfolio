@@ -15,7 +15,9 @@ interface SearchResultsProps {
 }
 
 const SearchResults = ({ results, rightContent }: SearchResultsProps) => {
-  const { theme } = useTheme()
+  const { isDarkMode, theme } = useTheme()
+
+  const hover = isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
   return (
     <div className={`px-4 pr pb-8 flex justify-between gap-8 ${theme.background}`}>
       {/* Main search results - left side */}
@@ -87,11 +89,11 @@ const SearchResults = ({ results, rightContent }: SearchResultsProps) => {
 
             {/* Action buttons */}
             <div className="flex gap-2 mb-4">
-              <Link href="https://www.linkedin.com/in/arno-boenders-816117228/" className={`flex items-center gap-2 px-3 py-2 border border-gray-300 ${theme.foreground} text-sm rounded hover:bg-gray-50`}>
+              <Link href="https://www.linkedin.com/in/arno-boenders-816117228/" className={`flex items-center gap-2 px-3 py-2 border border-gray-300 ${theme.foreground} text-sm rounded ${hover}`}>
                 <LinkedinIcon strokeWidth={1.5} />
                 LinkedIn
               </Link>
-              <Link href="https://github.com/Arno-Boenders" className={`flex items-center gap-2 px-3 py-2 border border-gray-300 ${theme.foreground} text-sm rounded hover:bg-gray-50`}>
+              <Link href="https://github.com/Arno-Boenders" className={`flex items-center gap-2 px-3 py-2 border border-gray-300 ${theme.foreground} text-sm rounded ${hover}`}>
                 <GithubIcon strokeWidth={1.5} />
                 GitHub
               </Link>
