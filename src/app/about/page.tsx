@@ -25,7 +25,7 @@ export default function AboutPage() {
                 <BrowserHeader query={query} />
             </div>
             <GoogleSearch query={query} onQueryChange={() => { }} onSearch={() => { }} />
-            <SearchResults results={currentData?.results} />
+            <SearchResults results={currentData?.results} rightContent />
         </div>
     );
 }
