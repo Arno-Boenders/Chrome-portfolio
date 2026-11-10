@@ -1,8 +1,2 @@
-import AboutPage from './about/page';
-
-export default function Home() {
-
-  return (
-    <AboutPage />
-  );
-};
+// The home page is the About page.
+export { default } from './about/page';

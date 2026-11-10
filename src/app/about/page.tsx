@@ -1,31 +1,48 @@
+import type { Metadata } from 'next';
+import EducationList from '@components/EducationList';
+import FeaturedSnippet from '@components/FeaturedSnippet';
+import ImageGrid, { type GridItem } from '@components/ImageGrid';
+import KnowledgePanel from '@components/KnowledgePanel';
+import PageShell from '@components/PageShell';
+import ResultItem from '@components/ResultItem';
+import { pages, profile } from '@data/profile';
+import { curatedProjects } from '@data/projects';
 
-'use client'
-import { Metadata } from 'next';
-import BrowserHeader from '@components/BrowserHeader';
-import GoogleSearch from '@components/GoogleSearch';
-import SearchResults from '@components/SearchResults';
-import { useTheme } from '@context/ThemeContext';
-import { searchData } from '@data/searchData';
-import { usePathname } from 'next/navigation';
+export const metadata: Metadata = {
+    title: 'About',
+    description: profile.bio,
+};
 
-// export const metadata: Metadata = {
-//     title: 'About Arno Boenders - Fullstack Developer',
-//     description: 'Arno Boenders is a 22-year-old programming student at Artevelde University College with a passion for web development.',
-// };
+const categories = [
+    { id: 'all', label: 'All' },
+    { id: 'images', label: 'Images' },
+    { id: 'education', label: 'Education' },
+];
 
-export default function AboutPage() {
-    const { theme } = useTheme();
-    const params = usePathname()
-    const currentData = searchData[params.slice(1) as keyof typeof searchData];
-    const query = currentData?.query.split(' ').join('-') ?? '';
+const images: GridItem[] = [
+    { image: { src: profile.photo.src, alt: profile.photo.alt, fit: 'cover', position: '50% 42%' }, title: profile.name, caption: profile.location, href: profile.linkedin },
+    ...curatedProjects.flatMap((p) =>
+        p.image ? [{ image: p.image, title: p.title, caption: p.tech.slice(0, 3).join(' · '), href: '/projects' }] : []
+    ),
+];
 
+type Props = { searchParams: Promise<{ tab?: string }> };
+
+export default async function AboutPage({ searchParams }: Props) {
+    const { tab } = await searchParams;
+    const active = categories.some((c) => c.id === tab) ? tab! : 'all';
+    const shell = { title: `${profile.name}, ${profile.role}`, query: pages.about.query, basePath: '/about', categories, active };
+
+    if (active === 'images') {
+        return <PageShell {...shell} count={images.length} wide><ImageGrid items={images} /></PageShell>;
+    }
+    if (active === 'education') {
+        return <PageShell {...shell} count={profile.education.length} aside={<KnowledgePanel />}><EducationList /></PageShell>;
+    }
     return (
-        <div className={`min-h-screen ${theme.background}`}>
-            <div className="shadow-lg">
-                <BrowserHeader query={query} />
-            </div>
-            <GoogleSearch query={query} onQueryChange={() => { }} onSearch={() => { }} />
-            <SearchResults results={currentData?.results} rightContent />
-        </div>
+        <PageShell {...shell} count={pages.about.results.length + 1} aside={<KnowledgePanel />}>
+            <FeaturedSnippet />
+            {pages.about.results.map((r) => <ResultItem key={r.url} {...r} />)}
+        </PageShell>
     );
 }
