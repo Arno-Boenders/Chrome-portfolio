@@ -1,30 +1,26 @@
-'use client'
+import type { Metadata } from 'next';
+import KnowledgePanel from '@components/KnowledgePanel';
+import PageShell from '@components/PageShell';
+import ResultItem from '@components/ResultItem';
+import { pages } from '@data/profile';
 
-import { Metadata } from 'next';
-import BrowserHeader from '@components/BrowserHeader';
-import GoogleSearch from '@components/GoogleSearch';
-import SearchResults from '@components/SearchResults';
-import { searchData } from '@data/searchData'
-import { usePathname } from 'next/navigation';
-import { useTheme } from '@context/ThemeContext';
-
-// export const metadata: Metadata = {
-//     title: 'Contact Arno Boenders',
-//     description: 'Get in touch with Arno Boenders for web development opportunities',
-// };
+export const metadata: Metadata = {
+    title: 'Contact',
+    description: 'Get in touch with Arno Boenders for fullstack development roles and projects.',
+};
 
 export default function ContactPage() {
-    const { theme } = useTheme();
-    const params = usePathname()
-    const currentData = searchData[params.slice(1) as keyof typeof searchData];
-    const query = currentData?.query.split(' ').join('-');
     return (
-        <div className={`min-h-screen ${theme.background}`}>
-            <div className="shadow-lg">
-                <BrowserHeader query={query} />
-            </div>
-            <GoogleSearch query={query} onQueryChange={(query: string) => { }} onSearch={() => { }} />
-            <SearchResults results={currentData?.results} />
-        </div>
+        <PageShell
+            title="Contact Arno Boenders"
+            query={pages.contact.query}
+            basePath="/contact"
+            categories={[{ id: 'all', label: 'All' }]}
+            active="all"
+            count={pages.contact.results.length}
+            aside={<KnowledgePanel />}
+        >
+            {pages.contact.results.map((r) => <ResultItem key={r.url} {...r} />)}
+        </PageShell>
     );
 }

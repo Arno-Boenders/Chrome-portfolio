@@ -1,26 +1,146 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Colour tokens, modelled on Google's own light/dark search palette. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --page: #ffffff;
+  --ink: #202124;
+  --muted: #5f6368;
+  --snippet: #4d5156;
+  --line: #dadce0;
+  --hover: #e8eaed;
+  --chip: #f1f3f4;
+  --link: #1a0dab;
+  --accent: #1a73e8;
+  color-scheme: light;
+}
+
+.dark {
+  --page: #202124;
+  --ink: #e8eaed;
+  --muted: #9aa0a6;
+  --snippet: #bdc1c6;
+  --line: #3c4043;
+  --hover: #3c4043;
+  --chip: #303134;
+  --link: #8ab4f8;
+  --accent: #8ab4f8;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-page: var(--page);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-snippet: var(--snippet);
+  --color-line: var(--line);
+  --color-hover: var(--hover);
+  --color-chip: var(--chip);
+  --color-link: var(--link);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-tap-highlight-color: transparent; /* our own :active states replace the grey flash */
+  -webkit-text-size-adjust: 100%;           /* no font inflation in landscape */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+}
+
+/* No 300ms double-tap wait on anything tappable. */
+a, button, label {
+  touch-action: manipulation;
+}
+
+/* Controls are not content: long-press shouldn't select their label or pop the link callout.
+   Result titles, snippets and the email address stay selectable. */
+.pressable,
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* ---- Motion ---------------------------------------------------------- */
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Entrance for results and tiles. Rare (once per page view), so a little delight is fine. */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade-in-still {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 280ms var(--ease-out) both;
+}
+
+/* 40ms cascade between siblings, capped so long lists never feel slow. */
+.stagger > :nth-child(2) { animation-delay: 40ms; }
+.stagger > :nth-child(3) { animation-delay: 80ms; }
+.stagger > :nth-child(4) { animation-delay: 120ms; }
+.stagger > :nth-child(5) { animation-delay: 160ms; }
+.stagger > :nth-child(6) { animation-delay: 200ms; }
+.stagger > :nth-child(n + 7) { animation-delay: 240ms; }
+
+/* Press feedback for anything clickable that looks like a button. */
+.pressable {
+  transition: transform 160ms var(--ease-out), background-color 150ms ease, box-shadow 150ms ease;
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* Theme toggle: the circle reveal replaces the default cross-fade (ThemeContext.tsx). */
+:root[data-theme-reveal]::view-transition-old(root),
+:root[data-theme-reveal]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Thumbnails fade in once loaded. Only with JS (html.js), so no-JS visitors still see them. */
+.img-fade {
+  transition: opacity 200ms var(--ease-out);
+}
+.js .img-fade:not([data-loaded]) {
+  opacity: 0;
+}
+
+/* Loading placeholders: appear only if loading takes >150ms, then breathe once a second. */
+@keyframes skeleton-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.skeleton {
+  animation: skeleton-in 200ms var(--ease-out) 150ms both, skeleton-pulse 1s ease-in-out 350ms infinite;
+}
+
+/* Reduced motion: keep the fade (it aids comprehension), drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in { animation-name: fade-in-still; }
+  .pressable:active { transform: none; }
+  .skeleton { animation: skeleton-in 200ms ease 150ms both; }
+}
+
+/* Visible keyboard focus everywhere, in the accent colour. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
