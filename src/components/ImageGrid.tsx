@@ -21,7 +21,7 @@ export default function ImageGrid({ items }: { items: GridItem[] }) {
                 return (
                     <li key={`${i}-${item.image.src}`} className="animate-fade-in">
                         {item.href
-                            ? (item.href.startsWith('/') ? <Link href={item.href} className="group block">{body}</Link> : <a href={item.href} className="group block">{body}</a>)
+                            ? (item.href.startsWith('/') ? <Link href={item.href} className="group block">{body}</Link> : <a href={item.href} rel="noopener noreferrer" className="group block">{body}</a>)
                             : <div>{body}</div>}
                     </li>
                 );

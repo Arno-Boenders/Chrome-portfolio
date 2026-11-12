@@ -24,7 +24,7 @@ interface Props {
 function SmartLink({ href, className, children }: { href: string; className?: string; children: React.ReactNode }) {
     return href.startsWith('/')
         ? <Link href={href} className={className}>{children}</Link>
-        : <a href={href} className={className}>{children}</a>;
+        : <a href={href} rel="noopener noreferrer" className={className}>{children}</a>;
 }
 
 export default function ResultItem({ url, title, description, source, date, tags, stars, liveUrl, image }: Props) {
@@ -56,7 +56,7 @@ export default function ResultItem({ url, title, description, source, date, tags
                             {tags && tags.length > MAX_TAGS && <span title={tags.slice(MAX_TAGS).join(', ')}>+{tags.length - MAX_TAGS}</span>}
                             {!!stars && <span className="flex items-center gap-1"><Star className="w-3 h-3" />{formatCount(stars)}</span>}
                             {liveUrl && (
-                                <a href={liveUrl} className="flex items-center gap-1 text-link hover:underline">
+                                <a href={liveUrl} rel="noopener noreferrer" className="flex items-center gap-1 text-link hover:underline">
                                     <ExternalLink className="w-3 h-3" />Live demo
                                 </a>
                             )}
