@@ -1,20 +1,13 @@
 // "Arno" in search-engine primaries: the site's own logo, not Google's.
-const COLORS = ['#4285F4', '#EA4335', '#FBBC05', '#4285F4', '#34A853', '#EA4335'];
+const COLORS = ['text-gblue', 'text-gred', 'text-gyellow', 'text-ggreen'];
 
-export default function Wordmark({ className = '' }: { className?: string }) {
+// `drop` plays the letter-by-letter entrance used on the landing page.
+export default function Wordmark({ className = '', drop = false }: { className?: string; drop?: boolean }) {
     return (
-        <span className={`font-semibold tracking-tight select-none ${className}`} aria-label="Arno">
+        <span className={`font-display font-semibold tracking-[-0.04em] select-none inline-flex ${drop ? 'wordmark-drop' : ''} ${className}`} aria-label="Arno">
             {'Arno'.split('').map((ch, i) => (
-                <span key={i} style={{ color: COLORS[i] }} aria-hidden>{ch}</span>
+                <span key={i} className={COLORS[i]} aria-hidden>{ch}</span>
             ))}
-        </span>
-    );
-}
-
-export function TabIcon() {
-    return (
-        <span className="hidden min-[360px]:flex w-4 h-4 shrink-0 rounded-sm bg-accent text-page text-[10px] font-bold items-center justify-center" aria-hidden>
-            A
         </span>
     );
 }

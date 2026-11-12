@@ -1,8 +1,10 @@
 import 'server-only';
-import { GITHUB_USER, curatedProjects, hiddenRepos, type ProjectImage } from '@/data/projects';
+import { GITHUB_USER, curatedProjects, hiddenRepos, slugOf, type ProjectImage } from '@/data/projects';
 
 export interface Project {
     title: string;
+    slug?: string | null;     // set for curated projects, which have their own page
+    summary?: string | null;
     url: string | null;       // main link: repo, or live demo; null when neither exists
     repoUrl: string | null;
     liveUrl: string | null;
@@ -129,6 +131,8 @@ export async function getProjects(): Promise<Project[]> {
         const liveUrl = safeUrl(p.live) ?? safeUrl(repo?.homepage);
         return {
             title: p.title,
+            slug: slugOf(p.title),
+            summary: p.summary,
             url: repoUrl ?? liveUrl,
             repoUrl,
             liveUrl,

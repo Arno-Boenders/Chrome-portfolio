@@ -1,10 +1,10 @@
-import PageShell from '@components/PageShell';
+import ResultsShell from '@components/ResultsShell';
 import ResultsSkeleton from '@components/ResultsSkeleton';
 
 export default function Loading() {
     return (
-        <PageShell title="Searching…" query="" basePath="/search" categories={[{ id: 'all', label: 'All' }]} active="all">
+        <ResultsShell kind="all" query="" title="Searching…" stats="Searching…">
             <ResultsSkeleton />
-        </PageShell>
+        </ResultsShell>
     );
 }

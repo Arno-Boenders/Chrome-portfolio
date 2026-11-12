@@ -25,6 +25,8 @@ export default function Thumb({ image, sizes, className = '', zoomOnHover = fals
                     unoptimized={image.src.endsWith('.svg')}
                     onError={() => setFailed(true)}
                     onLoad={() => setLoaded(true)}
+                    // An image that finished loading before React attached never fires onLoad.
+                    ref={(el) => { if (el?.complete && el.naturalWidth > 0) setLoaded(true); }}
                     data-loaded={loaded ? '' : undefined}
                     className={`img-fade ${contain ? 'object-contain p-[12%]' : 'object-cover'} ${zoomOnHover ? 'transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.03] motion-reduce:transition-none' : ''}`}
                     style={contain ? undefined : { objectPosition: image.position ?? '50% 0%' }}
