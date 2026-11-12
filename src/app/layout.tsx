@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
+import BrowserFrame from "@components/BrowserFrame";
 import "./globals.css";
 import { ThemeProvider, themeScript } from "@context/ThemeContext";
 
@@ -13,11 +14,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Display face for the wordmark and page headings.
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["500", "600"],
+});
+
 // Phone status bar / browser chrome colour = the tab strip at the top of the page.
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f1f3f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#303134" },
+    { media: "(prefers-color-scheme: light)", color: "#dfe3ea" },
+    { media: "(prefers-color-scheme: dark)", color: "#17181b" },
   ],
 };
 
@@ -52,12 +60,12 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} font-sans antialiased`}>
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-page focus:px-4 focus:py-3 focus:text-ink focus:shadow-md">
-          Skip to results
+          Skip to content
         </a>
         <ThemeProvider>
-          {children}
+          <BrowserFrame>{children}</BrowserFrame>
         </ThemeProvider>
       </body>
     </html>

@@ -10,7 +10,7 @@ export default function Thumb({ image, sizes, className = '', zoomOnHover = fals
     const [loaded, setLoaded] = useState(false);
     const contain = image.fit === 'contain';
     return (
-        <div className={`relative overflow-hidden bg-chip ${className}`} style={image.background && !failed ? { background: image.background } : undefined}>
+        <div className={`relative overflow-hidden bg-chip ${loaded || failed ? '' : 'shimmer'} ${className}`} style={image.background && !failed ? { background: image.background } : undefined}>
             {failed ? (
                 // A missing file (renamed screenshot, typo) shows a quiet tile, not a broken-image box.
                 <span className="absolute inset-0 flex items-center justify-center text-muted" role="img" aria-label={image.alt}>
@@ -25,6 +25,8 @@ export default function Thumb({ image, sizes, className = '', zoomOnHover = fals
                     unoptimized={image.src.endsWith('.svg')}
                     onError={() => setFailed(true)}
                     onLoad={() => setLoaded(true)}
+                    // An image that finished loading before React attached never fires onLoad.
+                    ref={(el) => { if (el?.complete && el.naturalWidth > 0) setLoaded(true); }}
                     data-loaded={loaded ? '' : undefined}
                     className={`img-fade ${contain ? 'object-contain p-[12%]' : 'object-cover'} ${zoomOnHover ? 'transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-[1.03] motion-reduce:transition-none' : ''}`}
                     style={contain ? undefined : { objectPosition: image.position ?? '50% 0%' }}

@@ -1,48 +1,36 @@
 import type { Metadata } from 'next';
-import EducationList from '@components/EducationList';
-import FeaturedSnippet from '@components/FeaturedSnippet';
-import ImageGrid, { type GridItem } from '@components/ImageGrid';
+import Faq from '@components/Faq';
+import HireCard from '@components/HireCard';
 import KnowledgePanel from '@components/KnowledgePanel';
-import PageShell from '@components/PageShell';
-import ResultItem from '@components/ResultItem';
-import { pages, profile } from '@data/profile';
-import { curatedProjects } from '@data/projects';
+import ProjectCard from '@components/ProjectCard';
+import ResultsShell from '@components/ResultsShell';
+import { overviews, pages, profile } from '@data/profile';
+import { projectCards } from '@data/projects';
+import { sectionHeading } from '@/lib/ui';
 
 export const metadata: Metadata = {
     title: 'About',
     description: profile.bio,
 };
 
-const categories = [
-    { id: 'all', label: 'All' },
-    { id: 'images', label: 'Images' },
-    { id: 'education', label: 'Education' },
-];
-
-const images: GridItem[] = [
-    { image: { src: profile.photo.src, alt: profile.photo.alt, fit: 'cover', position: '50% 42%' }, title: profile.name, caption: profile.location, href: profile.linkedin },
-    ...curatedProjects.flatMap((p) =>
-        p.image ? [{ image: p.image, title: p.title, caption: p.tech.slice(0, 3).join(' · '), href: '/projects' }] : []
-    ),
-];
-
-type Props = { searchParams: Promise<{ tab?: string }> };
-
-export default async function AboutPage({ searchParams }: Props) {
-    const { tab } = await searchParams;
-    const active = categories.some((c) => c.id === tab) ? tab! : 'all';
-    const shell = { title: `${profile.name}, ${profile.role}`, query: pages.about.query, basePath: '/about', categories, active };
-
-    if (active === 'images') {
-        return <PageShell {...shell} count={images.length} wide><ImageGrid items={images} /></PageShell>;
-    }
-    if (active === 'education') {
-        return <PageShell {...shell} count={profile.education.length} aside={<KnowledgePanel />}><EducationList /></PageShell>;
-    }
+// The "All" results: who Arno is, the projects, and the questions people ask.
+export default function AboutPage() {
     return (
-        <PageShell {...shell} count={pages.about.results.length + 1} aside={<KnowledgePanel />}>
-            <FeaturedSnippet />
-            {pages.about.results.map((r) => <ResultItem key={r.url} {...r} />)}
-        </PageShell>
+        <ResultsShell
+            kind="all"
+            query={pages.about.query}
+            title={`${profile.name}, ${profile.role}`}
+            stats={`About ${projectCards.length} projects (0.42 seconds)`}
+            overview={overviews.all}
+            aside={<><KnowledgePanel /><HireCard /></>}
+        >
+            <section>
+                <h2 className={sectionHeading}>Projects</h2>
+                <div className="grid sm:grid-cols-2 gap-x-5 gap-y-8 mt-3">
+                    {projectCards.map((p, i) => <ProjectCard key={p.slug} project={p} big={i === 0} index={i === 0 ? 0 : (i + 1) % 2} />)}
+                </div>
+            </section>
+            <Faq />
+        </ResultsShell>
     );
 }

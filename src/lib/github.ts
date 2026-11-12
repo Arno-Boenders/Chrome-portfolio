@@ -1,8 +1,10 @@
 import 'server-only';
-import { GITHUB_USER, curatedProjects, hiddenRepos, type ProjectImage } from '@/data/projects';
+import { GITHUB_USER, curatedProjects, hiddenRepos, slugOf, type ProjectImage } from '@/data/projects';
 
 export interface Project {
     title: string;
+    slug?: string | null;     // set for curated projects, which have their own page
+    summary?: string | null;
     url: string | null;       // main link: repo, or live demo; null when neither exists
     repoUrl: string | null;
     liveUrl: string | null;
@@ -39,6 +41,18 @@ function headers(): HeadersInit {
 }
 
 const lower = (s: string) => s.toLowerCase();
+
+// Repo homepages are free text on GitHub. Only real web addresses may become links,
+// so a `javascript:` or `data:` value can never end up in an href.
+function safeUrl(url: string | null | undefined): string | null {
+    if (!url) return null;
+    try {
+        const { protocol } = new URL(url);
+        return protocol === 'https:' || protocol === 'http:' ? url : null;
+    } catch {
+        return null;
+    }
+}
 
 // Turns a README into a plain-text first paragraph that reads like a description.
 function readmeExcerpt(markdown: string, max = 220): string {
@@ -113,10 +127,12 @@ export async function getProjects(): Promise<Project[]> {
 
     const curated: Project[] = curatedProjects.map((p) => {
         const repo = p.repo ? byName.get(lower(p.repo)) : undefined;
-        const repoUrl = repo?.html_url ?? (p.repo ? `https://github.com/${GITHUB_USER}/${p.repo}` : null);
-        const liveUrl = p.live ?? (repo?.homepage || null);
+        const repoUrl = safeUrl(repo?.html_url) ?? (p.repo ? `https://github.com/${GITHUB_USER}/${p.repo}` : null);
+        const liveUrl = safeUrl(p.live) ?? safeUrl(repo?.homepage);
         return {
             title: p.title,
+            slug: slugOf(p.title),
+            summary: p.summary,
             url: repoUrl ?? liveUrl,
             repoUrl,
             liveUrl,
@@ -134,9 +150,9 @@ export async function getProjects(): Promise<Project[]> {
             .filter((r) => !r.fork && !r.archived && !hidden.has(lower(r.name)) && !curatedNames.has(lower(r.name)))
             .map(async (r): Promise<Project> => ({
                 title: prettify(r.name),
-                url: r.html_url,
-                repoUrl: r.html_url,
-                liveUrl: r.homepage || null,
+                url: safeUrl(r.html_url),
+                repoUrl: safeUrl(r.html_url),
+                liveUrl: safeUrl(r.homepage),
                 description:
                     r.description ||
                     (readmeLookups++ < MAX_README_LOOKUPS ? await getReadmeExcerpt(r.name) : '') ||

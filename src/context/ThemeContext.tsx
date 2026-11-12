@@ -9,7 +9,7 @@ export const themeScript = `(function(){document.documentElement.classList.add('
 var s=localStorage.getItem('${STORAGE_KEY}');
 var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;
 document.documentElement.classList.toggle('dark',d);
-if(s){document.querySelectorAll('meta[name=theme-color]').forEach(function(m){m.setAttribute('content',d?'#303134':'#f1f3f4')})}
+if(s){document.querySelectorAll('meta[name=theme-color]').forEach(function(m){m.setAttribute('content',d?'#17181b':'#dfe3ea')})}
 }catch(e){}})()`;
 
 type Origin = { x: number; y: number };
@@ -24,7 +24,7 @@ const EASE_OUT = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const apply = (dark: boolean) => {
     document.documentElement.classList.toggle('dark', dark);
     // Status bar follows the chosen theme, not just the OS one.
-    document.querySelectorAll('meta[name=theme-color]').forEach((m) => m.setAttribute('content', dark ? '#303134' : '#f1f3f4'));
+    document.querySelectorAll('meta[name=theme-color]').forEach((m) => m.setAttribute('content', dark ? '#17181b' : '#dfe3ea'));
 };
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
