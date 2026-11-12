@@ -1,10 +1,12 @@
+import { Download } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CopyButton from '@components/CopyButton';
 import Faq from '@components/Faq';
 import KnowledgePanel from '@components/KnowledgePanel';
 import ResultsShell from '@components/ResultsShell';
-import { overviews, pages, profile } from '@data/profile';
+import Reveal from '@components/Reveal';
+import { cv, overviews, pages, profile } from '@data/profile';
 import { describeUrl } from '@/lib/format';
 import { btn, btnPrimary } from '@/lib/ui';
 
@@ -44,6 +46,7 @@ export default function ContactPage() {
                 <div className="flex flex-wrap gap-2.5">
                     <CopyButton text={profile.email} label="Copy email" className={btnPrimary} />
                     <a href={`mailto:${profile.email}`} className={btn}>Open mail app</a>
+                    <a href={cv.file} download className={btn}><Download className="w-4 h-4" aria-hidden />Download CV</a>
                 </div>
                 <p className="text-sm text-muted">
                     <span className="font-semibold text-ink">Currently: </span>{job.role} at {job.company}, since {job.since}.{' '}
@@ -51,13 +54,15 @@ export default function ContactPage() {
                 </p>
             </section>
 
-            <div className="stagger grid sm:grid-cols-2 gap-3.5">
-                {links.map((r) => (
-                    <a key={r.url} href={r.url} rel="noopener noreferrer" className="group block px-[18px] py-4 rounded-xl border border-line hover:bg-chip transition-colors duration-150">
+            <div className="grid sm:grid-cols-2 gap-3.5">
+                {links.map((r, i) => (
+                    <Reveal key={r.url} index={i}>
+                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="group block h-full px-[18px] py-4 rounded-xl border border-line hover:bg-chip hover:-translate-y-0.5 transition-[background-color,transform] duration-200 ease-[var(--ease-out)] motion-reduce:transition-none">
                         <span className="block text-xs text-muted truncate">{describeUrl(r.url).crumb.replace(/^https?:\/\/(www\.)?/, '')}</span>
                         <span className="block font-display font-medium text-lg text-link group-hover:underline">{r.title}</span>
                         <span className="block text-sm leading-[1.55] text-snippet">{r.description}</span>
                     </a>
+                    </Reveal>
                 ))}
             </div>
 

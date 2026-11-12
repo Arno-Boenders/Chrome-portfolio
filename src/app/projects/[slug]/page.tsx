@@ -40,11 +40,11 @@ export default async function ProjectPage({ params }: Props) {
                 <p className="mt-3 max-w-[60ch] text-[19px] leading-[1.5] text-ink">{p.summary}</p>
             </div>
             <div className="flex flex-wrap gap-2.5">
-                {p.live && <a href={p.live} rel="noopener noreferrer" className={btnPrimary}>Visit live site<ExternalLink className="w-4 h-4" aria-hidden /></a>}
-                {p.repo && <a href={`https://github.com/${GITHUB_USER}/${p.repo}`} rel="noopener noreferrer" className={btn}>View code</a>}
+                {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" className={btnPrimary}>Visit live site<ExternalLink className="w-4 h-4" aria-hidden /></a>}
+                {p.repo && <a href={`https://github.com/${GITHUB_USER}/${p.repo}`} target="_blank" rel="noopener noreferrer" className={btn}>View code</a>}
                 <Link href={`/projects/${next.slug}`} className={btn}>Next: {next.title}<ArrowRight className="w-4 h-4" aria-hidden /></Link>
             </div>
-            <ProjectThumb project={p} sizes="(min-width: 1024px) 920px, 100vw" className="aspect-video w-full max-w-[920px] rounded-[14px] border border-line" />
+            <ProjectThumb project={p} sizes="(min-width: 1024px) 920px, 100vw" large className="aspect-[16/10] w-full max-w-[960px] rounded-[18px] border border-line" />
             <p className="max-w-[65ch] text-base leading-[1.65] text-snippet">{p.year && <span className="text-muted">{p.year} — </span>}{p.description}</p>
             <Tags items={p.tech} max={12} />
             {study.length > 0 && (

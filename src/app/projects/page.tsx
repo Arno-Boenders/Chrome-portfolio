@@ -32,15 +32,15 @@ export default async function ProjectsPage() {
                 </>
             }
         >
-            <div className="stagger grid sm:grid-cols-2 gap-x-[18px] gap-y-6">
-                {projectCards.map((p, i) => <ProjectCard key={p.slug} project={p} big={i === 0} />)}
+            <div className="grid sm:grid-cols-2 gap-x-5 gap-y-8">
+                {projectCards.map((p, i) => <ProjectCard key={p.slug} project={p} big={i === 0} index={i === 0 ? 0 : (i + 1) % 2} />)}
             </div>
             {others.length > 0 && (
                 <section>
                     <h2 className={`${sectionHeading} mb-4`}>More on GitHub</h2>
                     {others.map((p, i) => <ProjectItem key={`${i}-${p.title}`} project={p} />)}
                     <p className="text-sm text-muted">
-                        Everything else is on <a href={profile.github} rel="noopener noreferrer" className="text-link hover:underline">GitHub</a>.
+                        Everything else is on <a href={profile.github} target="_blank" rel="noopener noreferrer" className="text-link hover:underline">GitHub</a>.
                     </p>
                 </section>
             )}

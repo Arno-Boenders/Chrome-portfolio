@@ -40,7 +40,7 @@ export const curatedProjects: CuratedProject[] = [
             'Ranked, score, swipe and multi-select voting; options can be places on a map, dates, times or images, and results update live. ' +
             'Also works as a remote MCP server, so Claude can create polls and read results from a chat.',
         tech: ['Next.js', 'Cloudflare Workers', 'Postgres', 'Drizzle', 'MCP'],
-        image: { src: '/projects/pickly.jpg', alt: 'Pickly poll results with a crowned winner', fit: 'cover', position: '95% 50%' },
+        image: { src: '/projects/pickly.jpg', alt: 'Pickly poll results with a crowned winner', fit: 'cover', position: '50% 50%' },
     },
     {
         title: 'Munto',
@@ -62,7 +62,7 @@ export const curatedProjects: CuratedProject[] = [
             'Players learn about the jobs inside the Air Force by assembling the right team for each mission and then playing its mini-games. ' +
             'Also includes a news feed with the latest Defence updates.',
         tech: ['React', 'GraphQL', 'Hygraph', 'Material UI'],
-        image: { src: '/projects/wings-of-belgium.svg', alt: 'Wings of Belgium logo', fit: 'contain', background: '#1f2a44' },
+        image: { src: '/projects/wings-of-belgium.jpg', alt: 'Wings of Belgium log-in screen', fit: 'cover', position: '50% 0%' },
     },
     {
         title: 'PGM Learning App',
@@ -109,6 +109,7 @@ export const curatedProjects: CuratedProject[] = [
         description:
             'This site: a portfolio built as a working browser. Pages open in tabs, the address bar searches, and results pages are filled with project data pulled live from the GitHub API.',
         tech: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+        image: { src: '/projects/chrome-portfolio.jpg', alt: 'The landing page of this site', fit: 'cover', position: '0% 0%' },
     },
 ];
 

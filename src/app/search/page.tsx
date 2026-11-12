@@ -21,6 +21,7 @@ type Props = { searchParams: Promise<{ q?: string }> };
 function pageFor(q: string): string | null {
     if (tokenize(q).length === 0) return '/about';
     if (/\b(contact|hire|email|available)\b|open to work/i.test(q)) return '/contact';
+    if (/\b(cv|resume|résumé|curriculum)\b/i.test(q)) return '/cv';
     if (/\b(experience|realo|immoweb|career|job)\b/i.test(q)) return '/experience';
     if (/^(arno boenders )?projects?$/i.test(q)) return '/projects';
     const project = projectCards.find((p) => p.title.toLowerCase() === q.toLowerCase());
@@ -62,8 +63,8 @@ export default async function SearchPage({ searchParams }: Props) {
             {cards.length > 0 && (
                 <section>
                     <h2 className={sectionHeading}>Projects</h2>
-                    <div className="stagger grid sm:grid-cols-2 gap-x-[18px] gap-y-6 mt-3">
-                        {cards.map((p, i) => <ProjectCard key={p.slug} project={p} big={i === 0 && cards.length > 2} />)}
+                    <div className="grid sm:grid-cols-2 gap-x-5 gap-y-8 mt-3">
+                        {cards.map((p, i) => <ProjectCard key={p.slug} project={p} big={i === 0 && cards.length > 2} index={i % 2} />)}
                     </div>
                 </section>
             )}

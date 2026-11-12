@@ -10,7 +10,7 @@ export default function Thumb({ image, sizes, className = '', zoomOnHover = fals
     const [loaded, setLoaded] = useState(false);
     const contain = image.fit === 'contain';
     return (
-        <div className={`relative overflow-hidden bg-chip ${className}`} style={image.background && !failed ? { background: image.background } : undefined}>
+        <div className={`relative overflow-hidden bg-chip ${loaded || failed ? '' : 'shimmer'} ${className}`} style={image.background && !failed ? { background: image.background } : undefined}>
             {failed ? (
                 // A missing file (renamed screenshot, typo) shows a quiet tile, not a broken-image box.
                 <span className="absolute inset-0 flex items-center justify-center text-muted" role="img" aria-label={image.alt}>

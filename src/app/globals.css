@@ -222,3 +222,273 @@ a, button, label {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ---- Motion, part two: loading, navigation, reveals ------------------- */
+
+:root {
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Every page fades into focus when it opens (app/template.tsx). */
+@keyframes page-enter {
+  from { opacity: 0; filter: blur(6px); }
+}
+.page-enter {
+  animation: page-enter 420ms var(--ease-out) backwards;
+}
+
+/* Items rise in as they scroll into view (components/Reveal.tsx). Only with JS, so nothing is hidden without it. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.js [data-reveal][data-visible] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Landing page: the rows under the wordmark follow it in. */
+.rise.d1 { animation-delay: 260ms; }
+.rise.d2 { animation-delay: 330ms; }
+.rise.d3 { animation-delay: 400ms; }
+.rise.d4 { animation-delay: 470ms; }
+
+/* Navigation progress under the toolbar: creeps forward while a page loads, then fades. */
+@keyframes progress-creep {
+  from { transform: scaleX(0); }
+  30% { transform: scaleX(0.55); }
+  to { transform: scaleX(0.92); }
+}
+.nav-progress {
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 2px;
+  transform-origin: left;
+  transform: scaleX(1);
+  opacity: 0;
+  background: linear-gradient(90deg, var(--g-blue), var(--g-red), var(--g-yellow), var(--g-green));
+  transition: opacity 300ms ease 100ms;
+  pointer-events: none;
+}
+.nav-progress[data-on] {
+  opacity: 1;
+  transition: none;
+  animation: progress-creep 4s var(--ease-out) 80ms both;
+}
+
+/* Tab favicon turns into a spinner while its page loads. */
+@keyframes spin { to { transform: rotate(360deg); } }
+.tab-spinner {
+  border: 2px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+/* A new tab grows out of the strip. */
+@keyframes tab-in {
+  from { opacity: 0; transform: translateY(6px) scaleX(0.9); }
+}
+.tab-in {
+  transform-origin: left bottom;
+  animation: tab-in 220ms var(--ease-out) backwards;
+}
+
+/* Screenshots: a soft shimmer while they load, then they sharpen into place. */
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+.shimmer,
+.skeleton .bg-chip {
+  background-image: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--ink) 9%, transparent) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+.img-fade {
+  transition: opacity 500ms var(--ease-out), filter 600ms var(--ease-out), transform 700ms var(--ease-out);
+}
+.js .img-fade:not([data-loaded]) {
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(1.04);
+}
+
+/* Project screenshot inside a small browser window, on a backdrop tinted with the project's colour. */
+.shot {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  padding: 6.5% 6.5% 0;
+  background:
+    radial-gradient(120% 130% at 0% 0%, color-mix(in srgb, var(--c) 34%, var(--page)), transparent 70%),
+    color-mix(in srgb, var(--c) 9%, var(--chip));
+}
+.shot-window {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+  background: var(--bar);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 10%, transparent), 0 18px 40px -12px rgb(0 0 0 / 0.45);
+  transition: transform 500ms var(--ease-out), box-shadow 500ms var(--ease-out);
+}
+.shot-bar {
+  flex: none;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+  background: var(--strip);
+}
+.shot-bar i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 25%, transparent);
+}
+.shot-lg .shot-bar { height: 26px; gap: 6px; padding-left: 12px; }
+.shot-lg .shot-bar i { width: 8px; height: 8px; }
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .shot-window {
+    transform: translateY(-3%) scale(1.02);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 14%, transparent), 0 28px 50px -14px rgb(0 0 0 / 0.55);
+  }
+  .wordmark-drop > span { transition: transform 300ms var(--ease-out); }
+  .wordmark-drop > span:hover { transform: translateY(-6%); }
+}
+
+/* Landing page: the four logo colours drifting behind the wordmark. Kept to the top of the page and faded out
+   above the tagline, so the text under the name stays readable. */
+@keyframes drift-a { to { transform: translate(8%, 6%) scale(1.12); } }
+@keyframes drift-b { to { transform: translate(-8%, 4%) scale(1.08); } }
+.aurora {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 420px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.3;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+  animation: fade-in-still 1200ms ease both;
+}
+.dark .aurora { opacity: 0.22; }
+.aurora i {
+  position: absolute;
+  top: -50%;
+  width: 34%;
+  aspect-ratio: 1.4;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+.aurora i:nth-child(1) { left: 2%; background: var(--g-blue); animation: drift-a 16s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { left: 24%; background: var(--g-red); animation: drift-b 19s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { left: 46%; background: var(--g-yellow); animation: drift-a 22s ease-in-out infinite alternate-reverse; }
+.aurora i:nth-child(4) { left: 68%; background: var(--g-green); animation: drift-b 17s ease-in-out infinite alternate-reverse; }
+
+/* Search fields show focus on their pill (shadow, open suggestions, or the address bar's own outline),
+   so the input inside doesn't draw a second box. */
+[data-search-input]:focus-visible,
+header form input:focus-visible {
+  outline: none;
+}
+
+/* Search suggestions drop out of the box. */
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-4px); }
+}
+.dropdown-in {
+  transform-origin: top;
+  animation: dropdown-in 160ms var(--ease-out) backwards;
+}
+
+/* Overview card: a caret follows the text while it types. */
+@keyframes caret-blink { 50% { opacity: 0; } }
+.typing-caret::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--k);
+  animation: caret-blink 900ms steps(1) infinite;
+}
+
+/* FAQ answers slide open (browsers without ::details-content just open instantly). */
+details {
+  interpolate-size: allow-keywords;
+}
+details::details-content {
+  block-size: 0;
+  overflow: clip;
+  opacity: 0;
+  transition: block-size 320ms var(--ease-out), opacity 320ms var(--ease-out), content-visibility 320ms allow-discrete;
+}
+details[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter { animation-name: fade-in-still; }
+  .js [data-reveal] { transform: none; transition: opacity 300ms ease; transition-delay: 0s; }
+  .js .img-fade:not([data-loaded]) { filter: none; transform: none; }
+  .shot-window, .wordmark-drop > span { transition: none; }
+  .aurora i, .shimmer, .skeleton .bg-chip { animation: none; }
+  .tab-in { animation-name: fade-in-still; }
+  .nav-progress[data-on] { animation: none; transform: scaleX(1); }
+  details::details-content { transition: none; }
+  .typing-caret::after { animation: none; }
+  .dropdown-in { animation-name: fade-in-still; }
+}
+
+/* ---- Easter eggs (components/EasterEggs.tsx) -------------------------- */
+
+/* Gravity: the page stops scrolling and its contents become things to grab. */
+.gravity-on,
+.gravity-on body {
+  overflow: hidden;
+}
+.gravity-on #main,
+.gravity-on aside {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+.gravity-on #main *,
+.gravity-on aside * {
+  -webkit-user-drag: none;
+  cursor: grab;
+}
+
+@keyframes barrel-roll { to { transform: rotate(360deg); } }
+.egg-roll {
+  animation: barrel-roll 1400ms var(--ease-in-out);
+}
+body {
+  transition: transform 500ms var(--ease-out);
+}
+.egg-askew {
+  transform: rotate(1.4deg);
+}
+
+/* ---- Printing (used to make the CV PDF from /cv) ---------------------- */
+
+@page {
+  size: A4;
+  margin: 12mm 15mm;
+}
+@media print {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html, body { background: #fff !important; }
+  nextjs-portal { display: none; }
+}

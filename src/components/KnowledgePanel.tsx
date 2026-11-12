@@ -1,4 +1,5 @@
-import { GithubIcon, LinkedinIcon } from 'lucide-react';
+import { FileText, GithubIcon, LinkedinIcon } from 'lucide-react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { profile } from '@/data/profile';
 import { btn } from '@/lib/ui';
@@ -24,8 +25,9 @@ export default function KnowledgePanel({ person = profile }: { person?: Person }
                 {job && <p><span className="font-semibold">Works at: </span>{job.company}, since {job.since}</p>}
                 {latest && <p><span className="font-semibold">Education: </span>{latest.title}, {latest.school} ({latest.period})</p>}
                 <div className="flex flex-wrap gap-2 mt-1">
-                    <a href={person.linkedin} rel="noopener noreferrer" className={btn}><LinkedinIcon className="w-4 h-4" strokeWidth={1.75} aria-hidden />LinkedIn</a>
-                    <a href={person.github} rel="noopener noreferrer" className={btn}><GithubIcon className="w-4 h-4" strokeWidth={1.75} aria-hidden />GitHub</a>
+                    <a href={person.linkedin} target="_blank" rel="noopener noreferrer" className={btn}><LinkedinIcon className="w-4 h-4" strokeWidth={1.75} aria-hidden />LinkedIn</a>
+                    <a href={person.github} target="_blank" rel="noopener noreferrer" className={btn}><GithubIcon className="w-4 h-4" strokeWidth={1.75} aria-hidden />GitHub</a>
+                    <Link href="/cv" className={btn}><FileText className="w-4 h-4" strokeWidth={1.75} aria-hidden />CV</Link>
                 </div>
             </div>
         </section>

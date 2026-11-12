@@ -17,6 +17,7 @@ export function describeTab(href: string): TabInfo {
     if (path === '/projects') return { title: 'Projects - Arno Boenders', letter: 'P', color: '#d93025', address };
     if (path === '/experience') return { title: 'Experience - Arno Boenders', letter: 'E', color: '#e37400', address };
     if (path === '/contact') return { title: 'Contact - Arno Boenders', letter: '@', color: '#188038', address };
+    if (path === '/cv') return { title: 'Arno-Boenders-CV.pdf', letter: 'C', color: '#5f6368', address };
     if (path === '/search') {
         const q = new URLSearchParams(query).get('q') ?? '';
         return { title: q ? `${q} - Arno Search` : 'Arno Search', letter: 'A', color: '#1a73e8', address };

@@ -26,8 +26,8 @@ export default function AboutPage() {
         >
             <section>
                 <h2 className={sectionHeading}>Projects</h2>
-                <div className="stagger grid sm:grid-cols-2 gap-x-[18px] gap-y-6 mt-3">
-                    {projectCards.map((p, i) => <ProjectCard key={p.slug} project={p} big={i === 0} />)}
+                <div className="grid sm:grid-cols-2 gap-x-5 gap-y-8 mt-3">
+                    {projectCards.map((p, i) => <ProjectCard key={p.slug} project={p} big={i === 0} index={i === 0 ? 0 : (i + 1) % 2} />)}
                 </div>
             </section>
             <Faq />
