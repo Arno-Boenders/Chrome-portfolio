@@ -59,7 +59,9 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
     useEffect(() => {
         try {
             const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) ?? 'null') as Win | null;
-            if (saved?.tabs?.length && saved.tabs.some((t) => t.id === saved.activeId)) setWin(saved);
+            // Only ever restore addresses of this site's own pages.
+            const own = (t: Tab) => typeof t?.id === 'number' && typeof t?.href === 'string' && /^\/(?!\/)/.test(t.href);
+            if (saved?.tabs?.length && saved.tabs.every(own) && saved.tabs.some((t) => t.id === saved.activeId)) setWin(saved);
         } catch { }
         restored.current = true;
     }, []);
