@@ -7,6 +7,8 @@ import { profile } from '@/data/profile';
 export const alt = `${profile.name}, ${profile.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
+// Rendered once at build time: it reads the photo from disk, which a Cloudflare Worker can't do at request time.
+export const dynamic = 'force-static';
 
 const LETTERS = [['A', '#4285F4'], ['r', '#EA4335'], ['n', '#FBBC05'], ['o', '#4285F4']];
 
