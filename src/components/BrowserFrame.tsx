@@ -20,6 +20,8 @@ const BOOKMARKS = [
     { href: '/contact', label: 'Contact' },
     { href: '/cv', label: 'CV' },
 ];
+// These pages have their own All · Projects · Experience · Contact tabs, so the bookmarks bar folds away there.
+const RESULT_PAGES = ['/about', '/projects', '/experience', '/contact', '/search'];
 
 const TabsContext = createContext<{ openInNewTab: (href: string) => void }>({ openInNewTab: () => { } });
 export const useTabs = () => useContext(TabsContext);
@@ -49,6 +51,7 @@ function resolveAddress(input: string): string {
 export default function BrowserFrame({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const router = useRouter();
+    const onResults = RESULT_PAGES.includes(pathname);
     const [href, setHref] = useState(pathname);
     const [win, setWin] = useState<Win>({ tabs: [{ id: 1, href: pathname }], activeId: 1 });
     const [address, setAddress] = useState('');
@@ -194,6 +197,7 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                             <button type="button" onClick={() => openInNewTab('/')} aria-label="New tab" className="pressable w-7 h-7 mb-[3px] ml-1 shrink-0 grid place-items-center rounded-full text-muted hover:bg-hover cursor-pointer">
                                 <Plus className="w-4 h-4" />
                             </button>
+                            <span className="ml-auto pl-1 self-center sm:hidden"><ThemeToggle /></span>
                         </div>
 
                         <div className="hidden sm:flex items-center gap-1 px-2.5 py-1.5">
@@ -225,7 +229,12 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                             <ThemeToggle pill />
                         </div>
 
-                        <nav className="flex items-center gap-0.5 px-2 sm:px-2.5 pb-1.5 pt-1 sm:pt-0 text-[12.5px] overflow-x-auto [scrollbar-width:none]" aria-label="Main">
+                        <div
+                            className={`grid transition-[grid-template-rows] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none ${onResults ? 'grid-rows-[0fr]' : 'grid-rows-[1fr]'}`}
+                            inert={onResults}
+                        >
+                        <nav className="min-h-0 overflow-hidden flex items-center gap-0.5 px-2 sm:px-2.5 text-[12.5px]" aria-label="Main">
+                            <div className="flex items-center gap-0.5 overflow-x-auto [scrollbar-width:none] pb-1.5 pt-1 sm:pt-0">
                             {BOOKMARKS.map((b) => {
                                 const current = b.href === '/' ? pathname === '/' : pathname.startsWith(b.href);
                                 return (
@@ -237,8 +246,9 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                             })}
                             <a href={profile.github} target="_blank" rel="noopener noreferrer" className={bookmark}>GitHub</a>
                             <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className={bookmark}>LinkedIn</a>
-                            <span className="ml-auto sm:hidden"><ThemeToggle /></span>
+                            </div>
                         </nav>
+                        </div>
                         <div className="nav-progress" data-on={loading ? '' : undefined} role="status" aria-label={loading ? 'Loading page' : undefined} />
                     </header>
                     {children}
