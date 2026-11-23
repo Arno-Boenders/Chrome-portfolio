@@ -1,8 +1,9 @@
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Play } from 'lucide-react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ProjectThumb } from '@components/ProjectCard';
+import TabLink from '@components/TabLink';
 import Tags from '@components/Tags';
 import { GITHUB_USER, projectCards } from '@data/projects';
 import { PAD, btn, btnPrimary } from '@/lib/ui';
@@ -40,6 +41,7 @@ export default async function ProjectPage({ params }: Props) {
                 <p className="mt-3 max-w-[60ch] text-[19px] leading-[1.5] text-ink">{p.summary}</p>
             </div>
             <div className="flex flex-wrap gap-2.5">
+                {p.play && <TabLink href={p.play} className={btnPrimary}><Play className="w-4 h-4" aria-hidden />Play it here</TabLink>}
                 {p.live && <a href={p.live} target="_blank" rel="noopener noreferrer" className={btnPrimary}>Visit live site<ExternalLink className="w-4 h-4" aria-hidden /></a>}
                 {p.repo && <a href={`https://github.com/${GITHUB_USER}/${p.repo}`} target="_blank" rel="noopener noreferrer" className={btn}>View code</a>}
                 <Link href={`/projects/${next.slug}`} className={btn}>Next: {next.title}<ArrowRight className="w-4 h-4" aria-hidden /></Link>

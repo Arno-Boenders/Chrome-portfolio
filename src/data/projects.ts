@@ -17,6 +17,7 @@ export interface CuratedProject {
     title: string;
     repo?: string;          // GitHub repo name; stars/language/date come from GitHub
     live?: string;
+    play?: string;          // a route on this site where the project runs, opened in a new site tab
     year?: string;          // used when there is no repo to take a date from
     summary: string;        // one line, shown on cards
     description: string;
@@ -111,10 +112,37 @@ export const curatedProjects: CuratedProject[] = [
         tech: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         image: { src: '/projects/chrome-portfolio.jpg', alt: 'The landing page of this site', fit: 'cover', position: '0% 0%' },
     },
+    {
+        title: 'Arno Slice',
+        summary: 'This portfolio as a slicing game: slice projects to unlock them.',
+        repo: 'arno-slice',
+        play: '/games/slice',
+        year: '2026',
+        description:
+            'Projects, pages and skills fly up the screen; slice a project or page to unlock it and read about it, and leave the bugs alone. ' +
+            'Everything you find stays in a collection bar, and a Zen mode drops the bugs. Built on an HTML canvas with TypeScript and Vite, without a framework.',
+        tech: ['TypeScript', 'Canvas', 'Vite'],
+        image: { src: '/projects/arno-slice.jpg', alt: 'Arno Slice start screen', fit: 'cover', position: '50% 0%' },
+    },
+    {
+        title: 'Arno Blocks',
+        summary: 'This portfolio as a block world: dig up projects to read about them.',
+        repo: 'arno-blocks',
+        play: '/games/blocks',
+        year: '2026',
+        description:
+            'My work is buried as ore, newest near the surface. Hold on a block to mine it; digging up an ore opens that project or job. ' +
+            'A sign holds the about page and a chest my contact details. Every block texture is painted in code on an HTML canvas, with TypeScript and Vite.',
+        tech: ['TypeScript', 'Canvas', 'Vite'],
+        image: { src: '/projects/arno-blocks.jpg', alt: 'Arno Blocks world with ores underground', fit: 'cover', position: '50% 30%' },
+    },
 ];
 
 // Never shown (profile README repo, older portfolio, experiments, ...).
 export const hiddenRepos: string[] = ['Arno-Boenders'];
+
+/** Projects that can be played on this site, by route segment: /games/slice → Arno Slice. */
+export const games = curatedProjects.flatMap((p) => (p.play ? [{ id: p.play.split('/').pop()!, title: p.title, slug: slugOf(p.title) }] : []));
 
 /** Curated projects in the shape the cards and project pages use. */
 export const projectCards = curatedProjects.map((p, i) => ({

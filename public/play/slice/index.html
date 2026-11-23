@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Arno Slice · Arno Boenders</title>
+    <meta name="description" content="The portfolio of Arno Boenders, fullstack developer in Ghent, as a slicing game. Slice projects to unlock them." />
+    <meta name="theme-color" content="#0a0c11" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232bb6a3'/%3E%3Cpath d='M4 26 28 6' stroke='white' stroke-width='3'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" />
+    <script type="module" crossorigin src="./assets/index-CHl32gIn.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DfvOWL8N.css">
+  </head>
+  <body>
+    <canvas id="game" aria-hidden="true"></canvas>
+
+    <header id="hud" class="hud" hidden>
+      <p class="score"><b id="score">0</b><span>score</span></p>
+      <p id="lives" class="lives"></p>
+      <div class="hud-actions">
+        <button type="button" id="pause" class="chip">Pause</button>
+        <button type="button" class="chip" data-everything>See everything</button>
+      </div>
+    </header>
+
+    <section id="menu" class="overlay">
+      <h1 class="wordmark" aria-label="Arno"><span>A</span><span>r</span><span>n</span><span>o</span></h1>
+      <p class="sub">Arno Boenders · Fullstack developer in Ghent</p>
+      <p class="how">Drag through a ring to start, or click it. Everything you slice is added to the bar at the bottom, where you can open it again.</p>
+      <ul class="legend">
+        <li><span class="lg disc" style="background-image: url(projects/pickly.jpg)"></span><b>Projects</b><span>slice to unlock</span></li>
+        <li><span class="lg page">CV</span><b>Pages</b><span>About, Work, Contact, CV</span></li>
+        <li><span class="lg pill">React</span><b>Skills</b><span>+10 points</span></li>
+        <li><span class="lg bug"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 9 4 7M16 9l4-2M7 13H3M17 13h4M8 17l-3 2M16 17l3 2M10 5 8 3M14 5l2-2"/></g><ellipse cx="12" cy="13" rx="4" ry="5.5" fill="currentColor"/><circle cx="12" cy="6.5" r="2.3" fill="currentColor"/></svg></span><b>Bugs</b><span>cost a life</span></li>
+      </ul>
+      <div class="rings">
+        <button type="button" class="ring" data-start="play" style="--c: #4c8dff"><span>Play</span><small>3 lives</small></button>
+        <button type="button" class="ring" data-start="zen" style="--c: #2ec27e"><span>Zen</span><small>no bugs</small></button>
+      </div>
+      <button type="button" class="link" data-everything>Skip the game and see everything</button>
+    </section>
+
+    <section id="over" class="overlay" hidden>
+      <h2>Out of lives</h2>
+      <p class="final">Score <b id="final-score">0</b> · Best <b id="final-best">0</b></p>
+      <p id="final-found" class="how"></p>
+      <div class="rings">
+        <button type="button" class="ring" data-start="play" style="--c: #4c8dff"><span>Again</span><small>3 lives</small></button>
+        <button type="button" class="ring" data-start="zen" style="--c: #2ec27e"><span>Zen</span><small>no bugs</small></button>
+      </div>
+      <p class="links"><button type="button" class="link" data-everything>See everything</button><button type="button" class="link" id="to-menu">Back to the start</button></p>
+    </section>
+
+    <section id="paused" class="overlay paused" hidden>
+      <h2>Paused</h2>
+      <button type="button" id="resume" class="chip big">Resume</button>
+      <p class="links"><button type="button" class="link" data-everything>See everything</button><button type="button" class="link" id="paused-home">Back to the start</button></p>
+    </section>
+
+    <nav class="shelf-wrap" aria-label="What you've found">
+      <span id="count" class="count"></span>
+      <div id="shelf" class="shelf"></div>
+    </nav>
+
+    <aside id="reveal" class="reveal" aria-live="polite" hidden></aside>
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+    <p class="credit">A personal portfolio game. Not affiliated with Halfbrick or Fruit Ninja.</p>
+
+  </body>
+</html>

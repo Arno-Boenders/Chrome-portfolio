@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { profile } from '@/data/profile';
-import { curatedProjects, slugOf } from '@/data/projects';
+import { curatedProjects, games, slugOf } from '@/data/projects';
 import { describeTab } from '@/lib/tabs';
 import EasterEggs, { eggFor, runEgg } from './EasterEggs';
 import ThemeToggle from './ThemeToggle';
@@ -41,7 +41,7 @@ function resolveAddress(input: string): string {
     const text = input.trim().replace(/^arno:\/\//, '').replace(/^\//, '');
     if (!text) return '/';
     const path = `/${text.toLowerCase()}`;
-    const pages = ['/about', '/projects', '/experience', '/contact', '/cv', ...curatedProjects.map((p) => `/projects/${slugOf(p.title)}`)];
+    const pages = ['/about', '/projects', '/experience', '/contact', '/cv', ...curatedProjects.map((p) => `/projects/${slugOf(p.title)}`), ...games.map((g) => `/games/${g.id}`)];
     if (pages.includes(path)) return path;
     if (text.startsWith('search?')) return `/${text}`;
     return `/search?q=${encodeURIComponent(text)}`;
@@ -252,7 +252,7 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                         <div className="nav-progress" data-on={loading ? '' : undefined} role="status" aria-label={loading ? 'Loading page' : undefined} />
                     </header>
                     {children}
-                    <footer className="px-4 pt-2 pb-8 text-center text-xs text-muted print:hidden">
+                    <footer className={`px-4 pt-2 pb-8 text-center text-xs text-muted print:hidden ${pathname.startsWith('/games/') ? 'hidden' : ''}`}>
                         A browser-inspired personal portfolio. Not affiliated with Google.
                     </footer>
                     <EasterEggs />

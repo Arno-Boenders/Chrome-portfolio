@@ -1,4 +1,4 @@
-import { projectCards } from '@/data/projects';
+import { games, projectCards } from '@/data/projects';
 
 export interface TabInfo {
     title: string;
@@ -21,6 +21,11 @@ export function describeTab(href: string): TabInfo {
     if (path === '/search') {
         const q = new URLSearchParams(query).get('q') ?? '';
         return { title: q ? `${q} - Arno Search` : 'Arno Search', letter: 'A', color: '#1a73e8', address };
+    }
+    const game = games.find((g) => path === `/games/${g.id}`);
+    if (game) {
+        const card = projectCards.find((p) => p.slug === game.slug)!;
+        return { title: game.title, letter: game.title.replace('Arno ', '')[0], color: card.color, address };
     }
     const project = projectCards.find((p) => path === `/projects/${p.slug}`);
     if (project) return { title: project.title, letter: project.title[0], color: project.color, address };
