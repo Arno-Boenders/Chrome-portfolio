@@ -82,7 +82,8 @@ const FLY_B = [
 const PX = 3;                 // size of one sprite pixel on screen
 const HEIGHT = 220;           // canvas height in CSS pixels
 const GROUND = 178;           // y of the ground line
-const RUNNER_X = 56;
+const FADE = 64;              // width of the soft fade on the left and right edges
+const RUNNER_X = FADE + 16;   // the runner stays clear of the fade
 const GRAVITY = 2400, JUMP_SPEED = 790;
 
 type Kind = 'bug' | 'bugs' | 'block' | 'fly' | 'skill';
@@ -261,7 +262,7 @@ export default function OfflineRunner() {
             ctx.font = `600 14px ui-monospace, Menlo, monospace`;
             ctx.textAlign = 'right';
             const label = `${best ? `best ${best.toLocaleString('en')}   ` : ''}${score().toLocaleString('en')} commits`;
-            ctx.fillText(label, W - 12, 24);
+            ctx.fillText(label, W - FADE, 24);
             ctx.textAlign = 'center';
             ctx.fillStyle = colors.ink;
             ctx.font = `600 16px Outfit, system-ui, sans-serif`;
@@ -319,10 +320,15 @@ export default function OfflineRunner() {
         <div>
             <canvas
                 ref={canvas}
-                tabIndex={0}
+                data-runner
                 aria-label="Running game: a pixel Arno jumps over bugs. Press Space or tap to jump, down arrow to duck."
-                className="block w-full touch-none select-none rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                style={{ height: HEIGHT }}
+                className="block w-full touch-none select-none outline-none [-webkit-tap-highlight-color:transparent]"
+                // Obstacles fade in on the right and out on the left instead of popping at a hard edge.
+                style={{
+                    height: HEIGHT,
+                    maskImage: `linear-gradient(to right, transparent, #000 ${FADE}px, #000 calc(100% - ${FADE}px), transparent)`,
+                    WebkitMaskImage: `linear-gradient(to right, transparent, #000 ${FADE}px, #000 calc(100% - ${FADE}px), transparent)`,
+                }}
             />
             <p className="sr-only" aria-live="polite">{result ? `Game over. ${result.score} commits.` : ''}</p>
             {result && result.skills.length > 0 && (

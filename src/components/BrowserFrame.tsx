@@ -7,6 +7,7 @@ import { profile } from '@/data/profile';
 import { curatedProjects, games, slugOf } from '@/data/projects';
 import { describeTab } from '@/lib/tabs';
 import EasterEggs, { eggFor, runEgg } from './EasterEggs';
+import OfflinePopup from './OfflinePopup';
 import ThemeToggle from './ThemeToggle';
 
 interface Tab { id: number; href: string }
@@ -256,6 +257,7 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                         A browser-inspired personal portfolio. Not affiliated with Google.
                     </footer>
                     <EasterEggs />
+                    <OfflinePopup />
                 </div>
             </div>
         </TabsContext.Provider>
