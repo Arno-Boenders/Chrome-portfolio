@@ -135,7 +135,8 @@ export default function OfflineRunner() {
         resize();
         const themeWatch = new MutationObserver(readColors);
         themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-        addEventListener('resize', resize);
+        const sizeWatch = new ResizeObserver(resize);
+        sizeWatch.observe(el);
 
         let best = 0;
         try { best = Number(localStorage.getItem('arno-run-best')) || 0; } catch { /* storage blocked */ }
@@ -307,7 +308,7 @@ export default function OfflineRunner() {
         return () => {
             cancelAnimationFrame(raf);
             themeWatch.disconnect();
-            removeEventListener('resize', resize);
+            sizeWatch.disconnect();
             removeEventListener('keydown', onKey);
             removeEventListener('keyup', onKeyUp);
             el.removeEventListener('pointerdown', onDown);

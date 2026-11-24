@@ -499,18 +499,6 @@ body {
   nextjs-portal { display: none; }
 }
 
-/* The occasional "no internet" popup (components/OfflinePopup.tsx) eases in like a dropped connection. */
-@keyframes offline-in {
-  from { opacity: 0; transform: translateY(12px) scale(0.97); }
-}
-.offline-popup[open] { animation: offline-in 360ms var(--ease-out); }
-/* The game area takes focus only so Space reaches the game; it isn't a control, so no ring. */
-.no-focus-ring:focus,
-.no-focus-ring:focus-visible { outline: none; }
-.offline-popup[open]::backdrop { animation: fade-in-still 300ms ease; }
 /* The toolbar's reload icon turns once per press. */
 @keyframes reload-spin { to { transform: rotate(360deg); } }
 .reload-spin { animation: reload-spin 650ms var(--ease-out); }
-@media (prefers-reduced-motion: reduce) {
-  .offline-popup[open] { animation-name: fade-in-still; }
-}

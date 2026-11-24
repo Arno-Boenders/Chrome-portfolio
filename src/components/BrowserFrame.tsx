@@ -7,7 +7,8 @@ import { profile } from '@/data/profile';
 import { curatedProjects, games, slugOf } from '@/data/projects';
 import { describeTab } from '@/lib/tabs';
 import EasterEggs, { eggFor, runEgg } from './EasterEggs';
-import OfflinePopup, { SITE_RELOAD } from './OfflinePopup';
+import OfflineScreen from './OfflineScreen';
+import { SITE_RELOAD, useOfflineMoment } from './useOfflineMoment';
 import ThemeToggle from './ThemeToggle';
 
 interface Tab { id: number; href: string }
@@ -132,7 +133,8 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
         return () => window.removeEventListener('keydown', onKey);
     }, []);
 
-    // The toolbar's reload: refreshes the page data, and now and then "loses the connection" (OfflinePopup).
+    // The toolbar's reload: refreshes the page data, and now and then "loses the connection" (useOfflineMoment).
+    const [offline, goOnline] = useOfflineMoment(pathname);
     const [reloads, setReloads] = useState(0);
     const reload = () => {
         setReloads((n) => n + 1);
@@ -191,8 +193,9 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                                 <span className="w-3 h-3 bg-[#28c840] rounded-full" />
                             </div>
                             {win.tabs.map((tab) => {
-                                const info = describeTab(tab.href);
                                 const active = tab.id === win.activeId;
+                                // While "offline", the active tab shows what Chrome shows: the error, not the page title.
+                                const info = active && offline ? { title: 'No internet', letter: '!', color: '#9aa0a6' } : describeTab(tab.href);
                                 return (
                                     <div key={tab.id} className={`tab-in group/tab no-select flex items-center h-[34px] min-w-[112px] flex-[0_1_210px] rounded-t-[9px] text-[12.5px] transition-colors duration-150 ${active ? 'bg-bar text-ink' : 'text-muted hover:bg-hover'}`}>
                                         <button type="button" onClick={() => selectTab(tab)} aria-current={active ? 'page' : undefined} className="flex-1 min-w-0 h-full flex items-center gap-2 pl-2.5 text-left cursor-pointer rounded-tl-[9px]">
@@ -266,12 +269,18 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                         </div>
                         <div className="nav-progress" data-on={loading ? '' : undefined} role="status" aria-label={loading ? 'Loading page' : undefined} />
                     </header>
-                    {children}
+                    {offline ? (
+                        <OfflineScreen
+                            title="No internet"
+                            text="That reload didn't make it. Just kidding: one in five reloads lands here. Jump a few bugs with Space or a tap, or try again to get the page back."
+                            code="ERR_INTERNET_DISCONNECTED"
+                            onRetry={goOnline}
+                        />
+                    ) : children}
                     <footer className={`px-4 pt-2 pb-8 text-center text-xs text-muted print:hidden ${pathname.startsWith('/games/') ? 'hidden' : ''}`}>
                         A browser-inspired personal portfolio. Not affiliated with Google.
                     </footer>
                     <EasterEggs />
-                    <OfflinePopup />
                 </div>
             </div>
         </TabsContext.Provider>
