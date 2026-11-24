@@ -14,7 +14,7 @@ export default function KnowledgePanel({ person = profile }: { person?: Person }
     return (
         <section className="rounded-2xl border border-line overflow-hidden" aria-label={`About ${person.name}`}>
             <div className="relative h-56">
-                <Image src={person.photo.src} alt={person.photo.alt} fill priority sizes="(min-width: 1024px) 320px, 100vw" className="object-cover object-[50%_40%]" />
+                <Image src={person.photo.src} alt={person.photo.alt} fill priority sizes="(min-width: 1024px) 320px, 100vw" className="object-cover object-[57%_38%]" />
             </div>
             <div className="px-[18px] pt-4 pb-[18px] flex flex-col gap-2.5 text-sm text-ink [overflow-wrap:anywhere]">
                 <div>

@@ -21,6 +21,7 @@ type Props = { searchParams: Promise<{ q?: string }> };
 function pageFor(q: string): string | null {
     if (tokenize(q).length === 0) return '/about';
     if (/\b(contact|hire|email|available)\b|open to work/i.test(q)) return '/contact';
+    if (/^(offline|dino|no internet|arno run)$/i.test(q)) return '/offline';
     if (/\b(cv|resume|résumé|curriculum)\b/i.test(q)) return '/cv';
     if (/\b(experience|realo|immoweb|career|job)\b/i.test(q)) return '/experience';
     if (/^(arno boenders )?projects?$/i.test(q)) return '/projects';

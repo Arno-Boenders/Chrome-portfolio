@@ -19,7 +19,7 @@ export default async function OpengraphImage() {
     return new ImageResponse(
         (
             <div style={{ width: '100%', height: '100%', display: 'flex', background: '#ffffff' }}>
-                <img src={src} alt="" width={420} height={630} style={{ objectFit: 'cover', objectPosition: '50% 42%' }} />
+                <img src={src} alt="" width={420} height={630} style={{ objectFit: 'cover', objectPosition: '57% 40%' }} />
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 72px' }}>
                     <div style={{ display: 'flex', fontSize: 88, fontWeight: 700, letterSpacing: -2 }}>
                         {LETTERS.map(([ch, c], i) => <span key={i} style={{ color: c }}>{ch}</span>)}

@@ -14,7 +14,7 @@ export const profile = {
     name: 'Arno Boenders',
     role: 'Fullstack Developer',
     location: 'Ghent, Belgium',
-    photo: { src: '/Arno.jpeg', width: 653, height: 1400, alt: 'Arno Boenders' },
+    photo: { src: '/Arno.jpeg', width: 1400, height: 1290, alt: 'Arno Boenders' },
 
     email: 'arnoboenders@gmail.com',
     linkedin: 'https://www.linkedin.com/in/arno-boenders-816117228/',

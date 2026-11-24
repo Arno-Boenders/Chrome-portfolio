@@ -18,6 +18,7 @@ export interface CuratedProject {
     repo?: string;          // GitHub repo name; stars/language/date come from GitHub
     live?: string;
     play?: string;          // a route on this site where the project runs, opened in a new site tab
+    video?: string;         // YouTube video id, shown on the project page instead of the screenshot
     year?: string;          // used when there is no repo to take a date from
     summary: string;        // one line, shown on cards
     description: string;
@@ -91,6 +92,7 @@ export const curatedProjects: CuratedProject[] = [
             'activities and scenic viewpoints to explore. Built in Unity with C# and the XR Interaction Toolkit; ' +
             'assets from the Unity Asset Store plus some modelled in Blender.',
         tech: ['Unity', 'C#', 'XR Toolkit', 'Blender'],
+        video: 'd4P7aXXNqW0',
         image: { src: '/projects/kamperen-in-vr.jpg', alt: 'Camping in VR scene', fit: 'cover' },
     },
     {

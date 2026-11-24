@@ -41,7 +41,7 @@ function resolveAddress(input: string): string {
     const text = input.trim().replace(/^arno:\/\//, '').replace(/^\//, '');
     if (!text) return '/';
     const path = `/${text.toLowerCase()}`;
-    const pages = ['/about', '/projects', '/experience', '/contact', '/cv', ...curatedProjects.map((p) => `/projects/${slugOf(p.title)}`), ...games.map((g) => `/games/${g.id}`)];
+    const pages = ['/about', '/projects', '/experience', '/contact', '/cv', '/offline', ...curatedProjects.map((p) => `/projects/${slugOf(p.title)}`), ...games.map((g) => `/games/${g.id}`)];
     if (pages.includes(path)) return path;
     if (text.startsWith('search?')) return `/${text}`;
     return `/search?q=${encodeURIComponent(text)}`;

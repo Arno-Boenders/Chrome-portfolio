@@ -1,10 +1,12 @@
 import { ArrowLeft, ArrowRight, ExternalLink, Play } from 'lucide-react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ProjectThumb } from '@components/ProjectCard';
 import TabLink from '@components/TabLink';
 import Tags from '@components/Tags';
+import VideoEmbed from '@components/VideoEmbed';
 import { GITHUB_USER, projectCards } from '@data/projects';
 import { PAD, btn, btnPrimary } from '@/lib/ui';
 
@@ -46,7 +48,18 @@ export default async function ProjectPage({ params }: Props) {
                 {p.repo && <a href={`https://github.com/${GITHUB_USER}/${p.repo}`} target="_blank" rel="noopener noreferrer" className={btn}>View code</a>}
                 <Link href={`/projects/${next.slug}`} className={btn}>Next: {next.title}<ArrowRight className="w-4 h-4" aria-hidden /></Link>
             </div>
-            <ProjectThumb project={p} sizes="(min-width: 1024px) 920px, 100vw" large className="aspect-[16/10] w-full max-w-[960px] rounded-[18px] border border-line" />
+            {p.video ? (
+                <VideoEmbed
+                    id={p.video}
+                    title={`${p.title}: video`}
+                    poster={p.image
+                        ? <Image src={p.image.src} alt="" fill sizes="(min-width: 1024px) 960px, 100vw" className="object-cover" style={{ objectPosition: p.image.position ?? '50% 50%' }} />
+                        : null}
+                    className="aspect-video w-full max-w-[960px] rounded-[18px] border border-line"
+                />
+            ) : (
+                <ProjectThumb project={p} sizes="(min-width: 1024px) 920px, 100vw" large className="aspect-[16/10] w-full max-w-[960px] rounded-[18px] border border-line" />
+            )}
             <p className="max-w-[65ch] text-base leading-[1.65] text-snippet">{p.year && <span className="text-muted">{p.year} — </span>}{p.description}</p>
             <Tags items={p.tech} max={12} />
             {study.length > 0 && (
