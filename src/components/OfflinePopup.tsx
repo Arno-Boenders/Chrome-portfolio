@@ -7,20 +7,29 @@ import { btn } from '@/lib/ui';
 // Pages that already have the game, or where a popup would get in the way.
 const SKIP = ['/offline', '/cv'];
 
+export const SITE_RELOAD = 'site-reload';
+const CHANCE = 0.2;
+
 /**
- * Easter egg: one in five page refreshes opens the "no internet" game in a popup.
- * Only on a refresh (not on a first visit or when following a link), and never twice in one session.
+ * Easter egg: one in five reloads opens the "no internet" game in a popup.
+ * Works with the site's own reload button (every press rolls the dice) and with a real browser refresh
+ * (at most once per session, so it never blocks someone who refreshes to fix something).
  */
 export default function OfflinePopup() {
     const pathname = usePathname();
     const dialog = useRef<HTMLDialogElement>(null);
     const game = useRef<HTMLDivElement>(null);
     const [show, setShow] = useState(false);
+    const path = useRef(pathname);
+    path.current = pathname;
 
+    const allowed = () =>
+        !SKIP.includes(path.current) && !path.current.startsWith('/games/') && !document.querySelector('canvas[data-runner]');
+
+    // A real browser refresh.
     useEffect(() => {
         const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-        if (nav?.type !== 'reload' || Math.random() >= 0.2) return;
-        if (SKIP.includes(pathname) || pathname.startsWith('/games/') || document.querySelector('canvas[data-runner]')) return;
+        if (nav?.type !== 'reload' || Math.random() >= CHANCE || !allowed()) return;
         try {
             if (sessionStorage.getItem('offline-popup-seen')) return;
             sessionStorage.setItem('offline-popup-seen', '1');
@@ -28,8 +37,13 @@ export default function OfflinePopup() {
         // Let the page settle first, so it reads as a hiccup rather than a broken load.
         const id = setTimeout(() => setShow(true), 700);
         return () => clearTimeout(id);
-        // Only on the first render after a load.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);   // only on the first render after a load
+
+    // The reload button in the site's toolbar.
+    useEffect(() => {
+        const onReload = () => { if (Math.random() < CHANCE && allowed()) setShow(true); };
+        addEventListener(SITE_RELOAD, onReload);
+        return () => removeEventListener(SITE_RELOAD, onReload);
     }, []);
 
     useEffect(() => {

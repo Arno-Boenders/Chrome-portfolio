@@ -7,7 +7,7 @@ import { profile } from '@/data/profile';
 import { curatedProjects, games, slugOf } from '@/data/projects';
 import { describeTab } from '@/lib/tabs';
 import EasterEggs, { eggFor, runEgg } from './EasterEggs';
-import OfflinePopup from './OfflinePopup';
+import OfflinePopup, { SITE_RELOAD } from './OfflinePopup';
 import ThemeToggle from './ThemeToggle';
 
 interface Tab { id: number; href: string }
@@ -132,6 +132,18 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
         return () => window.removeEventListener('keydown', onKey);
     }, []);
 
+    // The toolbar's reload: refreshes the page data, and now and then "loses the connection" (OfflinePopup).
+    const [reloads, setReloads] = useState(0);
+    const reload = () => {
+        setReloads((n) => n + 1);
+        setLoading(true);
+        router.refresh();
+        setTimeout(() => {
+            setLoading(false);
+            window.dispatchEvent(new Event(SITE_RELOAD));
+        }, 650);
+    };
+
     const nextId = () => Math.max(0, ...win.tabs.map((t) => t.id)) + 1;
 
     const openInNewTab = useCallback((target: string) => {
@@ -204,7 +216,9 @@ export default function BrowserFrame({ children }: { children: React.ReactNode }
                         <div className="hidden sm:flex items-center gap-1 px-2.5 py-1.5">
                             <button type="button" onClick={() => router.back()} className={toolButton} aria-label="Back"><ArrowLeft className="w-4 h-4" /></button>
                             <button type="button" onClick={() => router.forward()} className={toolButton} aria-label="Forward"><ArrowRight className="w-4 h-4" /></button>
-                            <button type="button" onClick={() => router.refresh()} className={toolButton} aria-label="Reload"><RotateCw className="w-[15px] h-[15px]" /></button>
+                            <button type="button" onClick={reload} className={toolButton} aria-label="Reload">
+                                <RotateCw key={reloads} className={`w-[15px] h-[15px] ${reloads ? 'reload-spin' : ''}`} />
+                            </button>
                             <form
                                 className="flex-1 min-w-0 ml-1 flex items-center h-[34px] px-3.5 rounded-full bg-chip text-sm focus-within:bg-bar focus-within:outline-2 focus-within:outline-accent"
                                 onSubmit={(e) => {

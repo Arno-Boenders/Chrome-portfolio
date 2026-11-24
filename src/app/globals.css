@@ -222,6 +222,12 @@ a, button, label {
   outline-offset: 2px;
   border-radius: 4px;
 }
+/* Elements with tabindex="-1" (the main content, the game area) only receive focus from code or a click,
+   e.g. the skip link. They aren't controls, so no ring, even after a key press. */
+[tabindex="-1"]:focus,
+[tabindex="-1"]:focus-visible {
+  outline: none;
+}
 
 /* ---- Motion, part two: loading, navigation, reveals ------------------- */
 
@@ -502,6 +508,9 @@ body {
 .no-focus-ring:focus,
 .no-focus-ring:focus-visible { outline: none; }
 .offline-popup[open]::backdrop { animation: fade-in-still 300ms ease; }
+/* The toolbar's reload icon turns once per press. */
+@keyframes reload-spin { to { transform: rotate(360deg); } }
+.reload-spin { animation: reload-spin 650ms var(--ease-out); }
 @media (prefers-reduced-motion: reduce) {
   .offline-popup[open] { animation-name: fade-in-still; }
 }
