@@ -44,7 +44,7 @@ export default function ExperiencePage() {
             {jobs.map((job) => (
                 <section key={job.company} className="flex flex-col gap-7">
                     <div className="flex items-center gap-3.5">
-                        <span className="w-[52px] h-[52px] shrink-0 rounded-xl grid place-items-center bg-kind text-page font-display font-semibold text-[26px]" aria-hidden>{job.company[0]}</span>
+                        <img src={job.logo} alt="" width={52} height={52} className="w-[52px] h-[52px] shrink-0 rounded-xl object-cover" />
                         <div>
                             <h2 className="font-display font-medium text-2xl leading-tight text-ink">{job.role}, {job.company}</h2>
                             <p className="text-sm text-muted">{job.period} · {job.about}</p>

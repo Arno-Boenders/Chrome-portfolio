@@ -40,7 +40,8 @@ export const profile = {
 
     experience: [
         {
-            company: 'Realo',
+            company: 'Realo (Immoweb)',
+            logo: '/logos/realo.jpg',
             about: 'Belgian real-estate platform, part of Immoweb',
             role: 'Fullstack Developer',
             period: 'Sept 2025 to now',
@@ -103,6 +104,7 @@ export const profile = {
         },
         {
             company: 'Bizzy',
+            logo: '/logos/bizzy.png',
             about: 'B2B business intelligence company in Ghent',
             role: 'Fullstack Developer Intern',
             period: 'April to June 2025',
