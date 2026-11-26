@@ -46,13 +46,26 @@ export const curatedProjects: CuratedProject[] = [
     },
     {
         title: 'Munto',
-        summary: 'Local-first budgeting for Belgian bank accounts, shipped as a desktop app.',
+        summary: 'Budgeting that stays on your computer: payments sorted into pots, with what\'s left until payday.',
+        repo: 'munto',
         year: '2026',
         description:
-            'Local-first budgeting app for Belgian bank accounts. It pulls transactions over PSD2 through Enable Banking into a SQLite file on your own machine, ' +
-            'sorts them with rules plus AI suggestions from Claude, and shows budgets, savings, subscriptions and where to cut. Ships as a desktop app.',
-        tech: ['Next.js', 'Electron', 'Node.js', 'SQLite', 'Claude'],
+            'Local-first budgeting app for Belgian bank accounts. It reads transactions over PSD2 through Enable Banking into a SQLite file on your own machine, ' +
+            'sorts every payment into pots with rules plus suggestions from an AI of your choice (Ollama keeps it all local), and shows what\'s left until payday, ' +
+            'budgets, subscriptions, savings and where to cut. Syncs every morning; desktop app for macOS, Windows and Linux.',
+        tech: ['Next.js', 'Electron', 'Node.js', 'SQLite', 'AI (Claude/Ollama)'],
         image: { src: '/projects/munto.jpg', alt: 'Munto overview with spending pots and charts (sample data)', fit: 'cover', position: '0% 0%' },
+    },
+    {
+        title: 'Code Practice',
+        summary: 'Front-end exercises matched to your level, with a live preview. In progress.',
+        year: '2026',
+        description:
+            'Front-end exercises matched to your level: a short placement of at most five exercises estimates junior, medior or senior, and you can always change it. ' +
+            'Build, find-the-bug, refactor and styling tasks in HTML, CSS/SCSS, JavaScript, TypeScript, React, Next.js and Vue, checked by automated tests that say what failed and why. ' +
+            'Code runs in a sandboxed browser preview, so visual work shows up while you write it. Still in development.',
+        tech: ['Next.js', 'TypeScript', 'Postgres', 'Drizzle', 'CodeMirror'],
+        image: { src: '/projects/code-practice.jpg', alt: 'Code Practice exercise map, from junior to senior per language', fit: 'cover', position: '50% 0%' },
     },
     {
         title: 'Wings of Belgium',
@@ -68,21 +81,11 @@ export const curatedProjects: CuratedProject[] = [
     },
     {
         title: 'PGM Learning App',
-        summary: 'Quiz app for mobile, built with React Native and Expo.',
+        summary: 'Mobile quiz app with accounts and leaderboards, built with React Native and Expo.',
         repo: 'PGM-Learning-App',
-        description: 'Quiz app for mobile, built with React Native and Expo.',
-        tech: ['React Native', 'Expo', 'TypeScript'],
-    },
-    {
-        title: 'Flappy Teachers',
-        summary: 'Flappy Bird-style arcade game starring our teachers.',
-        repo: 'Flappy-teachers',
-        live: 'https://pgmgent-atwork2.github.io/project-1-workshop-start-2-code-daria-arno/',
-        description:
-            'Flappy Bird-style arcade game starring our teachers. Steer between the pipes with the space bar or arrow key; ' +
-            'every pipe plays a sound and the game gets harder the further you go.',
-        tech: ['JavaScript', 'HTML', 'CSS'],
-        image: { src: '/projects/flappy-teachers.jpg', alt: 'Flappy Teachers gameplay', fit: 'cover', position: '50% 45%' },
+        description: 'Mobile quiz app built with React Native and Expo. Users register, log in, take quizzes and compare their scores on leaderboards.',
+        tech: ['React Native', 'Expo', 'TypeScript', 'Supabase'],
+        image: { src: '/projects/pgm-learning-app.jpg', alt: 'PGM Learning App home, quiz question and leaderboard screens (sample data)', fit: 'cover', position: '50% 50%' },
     },
     {
         title: 'Camping in VR',
@@ -94,16 +97,6 @@ export const curatedProjects: CuratedProject[] = [
         tech: ['Unity', 'C#', 'XR Toolkit', 'Blender'],
         video: 'd4P7aXXNqW0',
         image: { src: '/projects/kamperen-in-vr.jpg', alt: 'Camping in VR scene', fit: 'cover' },
-    },
-    {
-        title: 'Studio Clean',
-        summary: 'An agency design rebuilt as a static site with Eleventy and Nunjucks.',
-        repo: 'Clean',
-        description:
-            'UX Prototyping school project: rebuilding a given agency design as faithfully as possible as a static site, ' +
-            'using the templating tools Nunjucks and Eleventy.',
-        tech: ['Eleventy', 'Nunjucks', 'Markdown', 'CSS'],
-        image: { src: '/projects/studio-clean.jpg', alt: 'Studio Clean homepage', fit: 'cover', position: '0% 0%' },
     },
     {
         title: 'Chrome Portfolio',
@@ -138,10 +131,31 @@ export const curatedProjects: CuratedProject[] = [
         tech: ['TypeScript', 'Canvas', 'Vite'],
         image: { src: '/projects/arno-blocks.jpg', alt: 'Arno Blocks world with ores underground', fit: 'cover', position: '50% 30%' },
     },
+    {
+        title: 'Studio Clean',
+        summary: 'An agency design rebuilt as a static site with Eleventy and Nunjucks.',
+        repo: 'Clean',
+        description:
+            'UX Prototyping school project: rebuilding a given agency design as faithfully as possible as a static site, ' +
+            'using the templating tools Nunjucks and Eleventy.',
+        tech: ['Eleventy', 'Nunjucks', 'Markdown', 'CSS'],
+        image: { src: '/projects/studio-clean.jpg', alt: 'Studio Clean homepage', fit: 'cover', position: '0% 0%' },
+    },
+    {
+        title: 'Flappy Teachers',
+        summary: 'Flappy Bird-style arcade game starring our teachers.',
+        repo: 'Flappy-teachers',
+        live: 'https://pgmgent-atwork2.github.io/project-1-workshop-start-2-code-daria-arno/',
+        description:
+            'Flappy Bird-style arcade game starring our teachers. Steer between the pipes with the space bar or arrow key; ' +
+            'every pipe plays a sound and the game gets harder the further you go.',
+        tech: ['JavaScript', 'HTML', 'CSS'],
+        image: { src: '/projects/flappy-teachers.jpg', alt: 'Flappy Teachers gameplay', fit: 'cover', position: '50% 45%' },
+    },
 ];
 
 // Never shown (profile README repo, older portfolio, experiments, ...).
-export const hiddenRepos: string[] = ['Arno-Boenders'];
+export const hiddenRepos: string[] = ['Arno-Boenders', 'PokeballGuesser'];
 
 /** Projects that can be played on this site, by route segment: /games/slice → Arno Slice. */
 export const games = curatedProjects.flatMap((p) => (p.play ? [{ id: p.play.split('/').pop()!, title: p.title, slug: slugOf(p.title) }] : []));
